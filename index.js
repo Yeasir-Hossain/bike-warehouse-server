@@ -19,7 +19,7 @@ async function run(){
         //GET ALL BIKES
         app.get('/bike', async (req, res) => {
             const query = {}
-            const cursor = serviceCOllection.find(query);
+            const cursor = bikeCOllection.find(query);
             const bikes = await cursor.toArray();
             res.send(bikes);
           })

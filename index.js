@@ -34,7 +34,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
   try {
     await client.connect();
-    const bikeCOllection = client.db('bikeHub').collection('bike');
+    const bikeCollection = client.db('bikeHub').collection('bike');
     const itemCollection = client.db('bikeHub').collection('item');
     //AUTHORIZATION
     app.post('/login', async (req, res) => {
@@ -47,7 +47,7 @@ async function run() {
     //GET ALL BIKES
     app.get('/bike', async (req, res) => {
       const query = {}
-      const cursor = bikeCOllection.find(query);
+      const cursor = bikeCollection.find(query);
       const bikes = await cursor.toArray();
       res.send(bikes);
     })
@@ -55,7 +55,7 @@ async function run() {
     app.get("/bikesix", async (req, res) => {
       console.log("query", req.query);
       const query = {};
-      const cursor = productCollection.find(query);
+      const cursor = bikeCollection.find(query);
       
       let bikes;
         bikes = await cursor.toArray();
@@ -65,20 +65,20 @@ async function run() {
     app.get('/bike/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) }
-      const bike = await bikeCOllection.findOne(query)
+      const bike = await bikeCollection.findOne(query)
       res.send(bike);
     })
     //ADD
     app.post('/bike', async (req, res) => {
       const newBike = req.body;
-      const result = await serviceCOllection.insertOne(newBike)
+      const result = await bikeCollection.insertOne(newBike)
       res.send(result);
     })
     //DELETE
     app.delete('/bike/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
-      const result = await serviceCOllection.deleteOne(query);
+      const result = await bikeCollection.deleteOne(query);
       res.send(result);
     });
     //UPDATE
@@ -92,7 +92,7 @@ async function run() {
           quantity: updatedBike.quantity
         }
       }
-      const result=await productCollection.updateOne(filter,updatedDoc,options)
+      const result=await bikeCollection.updateOne(filter,updatedDoc,options)
       res.send(result)
     })
 
